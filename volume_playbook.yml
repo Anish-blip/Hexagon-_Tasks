@@ -1,0 +1,15 @@
+---
+- name: Calculate volume of a sphere
+  hosts: localhost
+  tasks:
+    - name: Set radius
+      set_fact:
+        r: 5
+
+    - name: Calculate volume of the sphere
+      set_fact:
+        volume: "{{ (4/3) * 3.14159 * (r**3) }}"
+
+    - name: Display the volume
+      debug:
+        msg: "The volume of the sphere is: {{ volume |float| round(3) }}"
