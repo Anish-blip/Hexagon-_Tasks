@@ -54,5 +54,5 @@ steps:
       git push https://$(GITHUB_TOKEN)@github.com/$(Build.Repository.Name).git HEAD:$(Build.SourceBranchName)
     displayName: 'Push output back to GitHub'
     env:
-      # Use the Personal Access Token stored as a secure variable in your pipeline
+      # The PAT is securely referenced from the pipeline variables
       GITHUB_TOKEN: $(GITHUB_TOKEN)
