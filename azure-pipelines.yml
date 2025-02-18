@@ -20,6 +20,7 @@ steps:
 - script: |
     echo "##[section]Running Python Scripts"
     cd Hexagon-_Tasks
+    ls -l  # List the files in the repository for debugging
     python your_script.py > output.txt
   displayName: 'Run Python Scripts'
 
