@@ -1,0 +1,58 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  # Define the file where output from Python scripts will be saved
+  RESULT_FILE: 'results/output.txt'
+
+steps:
+  # Step 1: Checkout the GitHub repository
+  - task: Checkout@1
+    displayName: 'Checkout GitHub repository'
+
+  # Step 2: Set up the Python environment (Python 3.x)
+  - task: UsePythonVersion@0
+    displayName: 'Set up Python'
+    inputs:
+      versionSpec: '3.x'
+      addToPath: true
+
+  # Step 3: Filter and copy only Python files into a new directory
+  - script: |
+      mkdir -p python_files
+      # Recursively copy all .py files to python_files folder
+      find . -type f -name '*.py' -exec cp {} python_files/ \;
+    displayName: 'Copy Python files'
+
+  # Step 4: Execute each Python file and collect their output
+  - script: |
+      mkdir -p results
+      # Clear the output file if it exists
+      > $RESULT_FILE
+      # Execute each Python file and append output to the result file
+      for file in python_files/*.py; do
+        echo "Running $file" >> $RESULT_FILE
+        python "$file" >> $RESULT_FILE 2>&1
+        echo -e "\n" >> $RESULT_FILE
+      done
+    displayName: 'Run Python files and collect output'
+
+  # Step 5: Configure Git user for committing changes
+  - script: |
+      git config user.email "your-email@example.com"
+      git config user.name "Your-GitHub-Username"
+    displayName: 'Configure Git'
+
+  # Step 6: Commit and push the output file back to the repository
+  - script: |
+      git add $RESULT_FILE
+      git commit -m "Update output file from pipeline run" || echo "No changes to commit"
+      # Push changes back to the branch that triggered the build
+      git push https://$(GITHUB_TOKEN)@github.com/$(Build.Repository.Name).git HEAD:$(Build.SourceBranchName)
+    displayName: 'Push output back to GitHub'
+    env:
+      # Use the Personal Access Token stored as a secure variable in your pipeline
+      GITHUB_TOKEN: $(GITHUB_TOKEN)
