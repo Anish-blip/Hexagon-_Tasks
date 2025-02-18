@@ -4,6 +4,9 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  GITHUB_PAT: $(GITHUB_PAT)
+
 steps:
 - task: UsePythonVersion@0
   inputs:
@@ -12,7 +15,7 @@ steps:
 
 - script: |
     echo "##[section]Cloning Repository"
-    git clone https://github.com/your-github-username/your-repo-name.git
+    git clone https://$(GITHUB_PAT)@github.com/your-github-username/your-repo-name.git
   displayName: 'Clone GitHub Repository'
 
 - script: |
@@ -39,5 +42,5 @@ steps:
     git config user.email "your-email@example.com"
     git add output.txt
     git commit -m "Add script output"
-    git push origin main
+    git push https://$(GITHUB_PAT)@github.com/your-github-username/your-repo-name.git
   displayName: 'Push Results to GitHub'
