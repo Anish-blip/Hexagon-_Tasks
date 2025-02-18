@@ -21,7 +21,8 @@ steps:
     echo "##[section]Running Python Scripts"
     cd Hexagon-_Tasks
     ls -l  # List the files in the repository for debugging
-    python volume.py > output.txt  # Update this line to use the correct script
+    python volume.py > output.txt  # Run the Python script and redirect output to output.txt
+    ls -l  # List the files again to verify if output.txt was created
   displayName: 'Run Python Scripts'
 
 - script: |
