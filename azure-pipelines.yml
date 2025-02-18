@@ -12,12 +12,14 @@ steps:
 
 - script: |
     echo "##[section]Cloning Repository"
-    git clone https://github.com/your-github-username/your-repo-name.git
+    git clone https://$GITHUB_PAT@github.com/Anish-blip/Hexagon-_Tasks.git
   displayName: 'Clone GitHub Repository'
+  env:
+    GITHUB_PAT: $(GITHUB_PAT)
 
 - script: |
     echo "##[section]Running Python Scripts"
-    cd your-repo-name
+    cd Hexagon-_Tasks
     python your_script.py > output.txt
   displayName: 'Run Python Scripts'
 
@@ -34,10 +36,12 @@ steps:
 
 - script: |
     echo "##[section]Pushing Results to GitHub"
-    cd your-repo-name
-    git config user.name "your-github-username"
+    cd Hexagon-_Tasks
+    git config user.name "Anish-blip"
     git config user.email "your-email@example.com"
     git add output.txt
     git commit -m "Add script output"
-    git push origin main
+    git push https://$GITHUB_PAT@github.com/Anish-blip/Hexagon-_Tasks.git
   displayName: 'Push Results to GitHub'
+  env:
+    GITHUB_PAT: $(GITHUB_PAT)
