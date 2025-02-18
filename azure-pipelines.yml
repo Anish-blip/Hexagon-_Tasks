@@ -1,0 +1,43 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
+
+- script: |
+    echo "##[section]Cloning Repository"
+    git clone https://github.com/your-github-username/your-repo-name.git
+  displayName: 'Clone GitHub Repository'
+
+- script: |
+    echo "##[section]Running Python Scripts"
+    cd your-repo-name
+    python your_script.py > output.txt
+  displayName: 'Run Python Scripts'
+
+- script: |
+    echo "##[section]Gathering Results"
+    cp output.txt $(Build.ArtifactStagingDirectory)/
+  displayName: 'Gather Results'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/output.txt'
+    artifactName: 'output'
+    publishLocation: 'Container'
+
+- script: |
+    echo "##[section]Pushing Results to GitHub"
+    cd your-repo-name
+    git config user.name "your-github-username"
+    git config user.email "your-email@example.com"
+    git add output.txt
+    git commit -m "Add script output"
+    git push origin main
+  displayName: 'Push Results to GitHub'
