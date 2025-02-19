@@ -53,6 +53,7 @@ steps:
 - script: |
     echo "##[section]Gathering Results"
     mkdir -p $(Build.ArtifactStagingDirectory)  # Ensure the directory exists
+    ls -l  # List the contents of the directory before copying
     cp output_*.txt $(Build.ArtifactStagingDirectory)/ || { echo "No output files found"; ls -l $(Build.ArtifactStagingDirectory); exit 1; }
   displayName: 'Gather Results'
 
