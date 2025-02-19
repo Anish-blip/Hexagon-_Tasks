@@ -38,6 +38,13 @@ steps:
         echo "Running $file"
         python "$file" > "output_${file%.py}.txt" 2>&1 || { echo "Failed to run $file"; cat "output_${file%.py}.txt"; exit 1; }
       fi
+      # Check if the output file was created
+      if [ -f "output_${file%.py}.txt" ]; then
+        echo "Output file for $file was created successfully."
+      else
+        echo "Output file for $file was not created."
+        exit 1
+      fi
     done
     echo "##[section]After running Python scripts"
     ls -l  # List the files again to verify if the output files were created
