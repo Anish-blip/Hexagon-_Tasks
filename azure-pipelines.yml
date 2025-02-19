@@ -23,7 +23,8 @@ steps:
     cd Hexagon-_Tasks
     ls -l  # List the files in the repository for debugging
     for file in *.py; do
-      python "$file" > "output_${file%.py}.txt"
+      echo "Running $file"
+      python "$file" > "output_${file%.py}.txt" || { echo "Failed to run $file"; exit 1; }
     done
     echo "##[section]After running Python scripts"
     ls -l  # List the files again to verify if the output files were created
