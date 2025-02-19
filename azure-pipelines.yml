@@ -31,12 +31,13 @@ steps:
 
 - script: |
     echo "##[section]Gathering Results"
-    cp Hexagon-_Tasks/output*.txt $(Build.ArtifactStagingDirectory)/
+    mkdir -p $(Build.ArtifactStagingDirectory)  # Ensure the directory exists
+    cp output*.txt $(Build.ArtifactStagingDirectory)/
   displayName: 'Gather Results'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)/output*.txt'
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/*.txt'
     artifactName: 'output'
     publishLocation: 'Container'
 
