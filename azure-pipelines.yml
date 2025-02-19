@@ -4,6 +4,9 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  - group: GITHUB_PAT  # Reference your variable group here
+
 steps:
 - task: UsePythonVersion@0
   inputs:
@@ -14,8 +17,6 @@ steps:
     echo "##[section]Cloning Repository"
     git clone https://$(GITHUB_PAT)@github.com/Anish-blip/Hexagon-_Tasks.git
   displayName: 'Clone GitHub Repository'
-  env:
-    GITHUB_PAT: $(GITHUB_PAT)
 
 - script: |
     echo "##[section]Running Python Scripts"
@@ -46,5 +47,3 @@ steps:
     git commit -m "Add script output"
     git push https://$(GITHUB_PAT)@github.com/Anish-blip/Hexagon-_Tasks.git
   displayName: 'Push Results to GitHub'
-  env:
-    GITHUB_PAT: $(GITHUB_PAT)
