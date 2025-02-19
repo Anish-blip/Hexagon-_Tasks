@@ -22,12 +22,13 @@ steps:
     cd Hexagon-_Tasks
     ls -l  # List the files in the repository for debugging
     python volume.py > output.txt  # Run the Python script and redirect output to output.txt
+    echo "##[section]After running Python script"
     ls -l  # List the files again to verify if output.txt was created
   displayName: 'Run Python Scripts'
 
 - script: |
     echo "##[section]Gathering Results"
-    cp output.txt $(Build.ArtifactStagingDirectory)/
+    cp Hexagon-_Tasks/output.txt $(Build.ArtifactStagingDirectory)/
   displayName: 'Gather Results'
 
 - task: PublishBuildArtifacts@1
