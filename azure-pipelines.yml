@@ -22,19 +22,21 @@ steps:
     echo "##[section]Running Python Scripts"
     cd Hexagon-_Tasks
     ls -l  # List the files in the repository for debugging
-    python volume.py > output.txt  # Run the Python script and redirect output to output.txt
-    echo "##[section]After running Python script"
-    ls -l  # List the files again to verify if output.txt was created
+    python script1.py > output1.txt  # Run the first Python script and redirect output to output1.txt
+    python script2.py > output2.txt  # Run the second Python script and redirect output to output2.txt
+    # Add more scripts as needed
+    echo "##[section]After running Python scripts"
+    ls -l  # List the files again to verify if the output files were created
   displayName: 'Run Python Scripts'
 
 - script: |
     echo "##[section]Gathering Results"
-    cp Hexagon-_Tasks/output.txt $(Build.ArtifactStagingDirectory)/
+    cp Hexagon-_Tasks/output*.txt $(Build.ArtifactStagingDirectory)/
   displayName: 'Gather Results'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)/output.txt'
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/output*.txt'
     artifactName: 'output'
     publishLocation: 'Container'
 
@@ -43,7 +45,7 @@ steps:
     cd Hexagon-_Tasks
     git config --global user.name "Anish-blip"
     git config --global user.email "your-email@example.com"
-    git add output.txt
-    git commit -m "Add script output"
+    git add output*.txt
+    git commit -m "Add script outputs"
     git push https://$(GITHUB_PAT)@github.com/Anish-blip/Hexagon-_Tasks.git
   displayName: 'Push Results to GitHub'
