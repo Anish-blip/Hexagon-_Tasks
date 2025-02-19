@@ -19,16 +19,26 @@ steps:
   displayName: 'Clone GitHub Repository'
 
 - script: |
-    echo "##[section]Running Python Script"
+    echo "##[section]Installing Dependencies"
+    pip install -r Hexagon-_Tasks/requirements.txt || true  # Modify this line to point to your requirements file if needed
+  displayName: 'Install Dependencies'
+
+- script: |
+    echo "##[section]Running Python Scripts"
     cd Hexagon-_Tasks
     ls -l  # List the files in the repository for debugging
     for file in *.py; do
-      echo "Running $file"
-      python "$file" > "output_${file%.py}.txt" || { echo "Failed to run $file"; exit 1; }
+      if [[ "$file" == "reverse_number.py" ]]; then
+        echo "Running $file with argument 12345"
+        python "$file" 12345 > "output_${file%.py}.txt" 2>&1 || { echo "Failed to run $file"; exit 1; }
+      else
+        echo "Running $file"
+        python "$file" > "output_${file%.py}.txt" 2>&1 || { echo "Failed to run $file"; exit 1; }
+      fi
     done
     echo "##[section]After running Python scripts"
     ls -l  # List the files again to verify if the output files were created
-  displayName: 'Run Python Script'
+  displayName: 'Run Python Scripts'
 
 - script: |
     echo "##[section]Gathering Results"
