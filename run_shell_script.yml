@@ -1,0 +1,17 @@
+---
+- name: Run Shell Script to Calculate Volume of Sphere
+  hosts: localhost  # You can replace 'localhost' with any remote server or host
+  tasks:
+    - name: Copy the shell script to the target machine
+      copy:
+        src: ./calculate_volume.sh
+        dest: /tmp/calculate_volume.sh
+        mode: '0755'  # Makes the script executable
+
+    - name: Execute the shell script
+      shell: /tmp/calculate_volume.sh
+      register: result  # Capture the result of script execution
+
+    - name: Show the result
+      debug:
+        var: result.stdout  # Output the result of the script

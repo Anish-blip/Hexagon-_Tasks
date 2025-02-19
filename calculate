@@ -1,0 +1,11 @@
+_#!/bin/bash
+
+# Define radius
+r=5
+
+# Calculate volume of sphere
+volume=$(echo "scale=2; 4/3 * 3.14159265359 * $r^3" | bc)
+
+# Output the result
+echo "The volume of the sphere with radius $r is: $volume"
+
