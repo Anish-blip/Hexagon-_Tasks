@@ -12,7 +12,7 @@ steps:
 
 - script: |
     echo "##[section]Cloning Repository"
-    git clone https://$GITHUB_PAT@github.com/Anish-blip/Hexagon-_Tasks.git
+    git clone https://$(GITHUB_PAT)@github.com/Anish-blip/Hexagon-_Tasks.git
   displayName: 'Clone GitHub Repository'
   env:
     GITHUB_PAT: $(GITHUB_PAT)
@@ -40,11 +40,11 @@ steps:
 - script: |
     echo "##[section]Pushing Results to GitHub"
     cd Hexagon-_Tasks
-    git config user.name "Anish-blip"
-    git config user.email "your-email@example.com"
+    git config --global user.name "Anish-blip"
+    git config --global user.email "your-email@example.com"
     git add output.txt
     git commit -m "Add script output"
-    git push https://$GITHUB_PAT@github.com/Anish-blip/Hexagon-_Tasks.git
+    git push https://$(GITHUB_PAT)@github.com/Anish-blip/Hexagon-_Tasks.git
   displayName: 'Push Results to GitHub'
   env:
     GITHUB_PAT: $(GITHUB_PAT)
