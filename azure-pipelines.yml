@@ -31,6 +31,9 @@ steps:
       if [[ "$file" == "reverse_number.py" ]]; then
         echo "Running $file with argument 12345"
         python "$file" 12345 > "output_${file%.py}.txt" 2>&1 || { echo "Failed to run $file"; cat "output_${file%.py}.txt"; exit 1; }
+      elif [[ "$file" == "sum.py" ]]; then
+        echo "Running $file with argument 1234"
+        python "$file" 1234 > "output_${file%.py}.txt" 2>&1 || { echo "Failed to run $file"; cat "output_${file%.py}.txt"; exit 1; }
       else
         echo "Running $file"
         python "$file" > "output_${file%.py}.txt" 2>&1 || { echo "Failed to run $file"; cat "output_${file%.py}.txt"; exit 1; }
