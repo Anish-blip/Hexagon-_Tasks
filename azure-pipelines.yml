@@ -1,61 +1,29 @@
 trigger:
-- main
+  - main
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.x'
-    addToPath: true
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
+      addToPath: true
 
-- script: |
-    echo "##[section]Cloning Repository"
-    git clone https://$GITHUB_PAT@github.com/Anish-blip/Hexagon-_Tasks.git
-  displayName: 'Clone GitHub Repository'
-  env:
-    GITHUB_PAT: $(GITHUB_PAT)
+  - script: |
+      echo "##[section]Cloning Repository"
+      git clone https://$GITHUB_PAT@github.com/Anish-blip/Hexagon-_Tasks.git
+      ls -l  # List files after clone for debugging
+    displayName: 'Clone GitHub Repository'
+    env:
+      GITHUB_PAT: $(GITHUB_PAT)
 
-- script: |
-    echo "##[section]Running Python Scripts"
-    cd Hexagon-_Tasks
-    ls -l  # List the files in the repository for debugging
+  - script: |
+      echo "##[section]Debug: Listing Python Files in Repository"
+      cd Hexagon-_Tasks
+      ls -l *.py || echo "No Python files found!"
+    displayName: 'Debug: List Python Files'
 
-    # Find all .py files and run them
-    for file in *.py; do
-      echo "Running $file"
-      python $file > "${file%.py}_output.txt" 2>&1
-      if [ -f "${file%.py}_output.txt" ]; then
-        echo "$file executed successfully, output saved to ${file%.py}_output.txt"
-      else
-        echo "Failed to execute $file or no output was generated"
-      fi
-    done
+  - script: |
+      echo "##[section]Running Python Scripts"
     
-    ls -l  # List the files again to verify if output files were created
-  displayName: 'Run Python Scripts'
-
-- script: |
-    echo "##[section]Gathering Results"
-    mkdir -p $(Build.ArtifactStagingDirectory)/outputs
-    cp *_output.txt $(Build.ArtifactStagingDirectory)/outputs/
-  displayName: 'Gather Results'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)/outputs'
-    artifactName: 'outputs'
-    publishLocation: 'Container'
-
-- script: |
-    echo "##[section]Pushing Results to GitHub"
-    cd Hexagon-_Tasks
-    git config user.name "Anish-blip"
-    git config user.email "your-email@example.com"
-    git add *_output.txt
-    git commit -m "Add script outputs"
-    git push https://$GITHUB_PAT@github.com/Anish-blip/Hexagon-_Tasks.git
-  displayName: 'Push Results to GitHub'
-  env:
-    GITHUB_PAT: $(GITHUB_PAT)
