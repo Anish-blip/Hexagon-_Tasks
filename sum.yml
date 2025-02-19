@@ -1,0 +1,17 @@
+---
+- name: Run Python script to sum digits
+  hosts: localhost
+  tasks:
+    - name: Ensure the Python script is present
+      copy:
+        src: /mnt/c/Tasks/sum.py
+        dest: /tmp/sum.py
+
+    - name: Execute the Python script
+      command: python3 /tmp/sum.py
+      register: script_output
+
+    - name: Display the output
+      debug:
+        msg: "{{ script_output.stdout }}"
+
