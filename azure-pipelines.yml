@@ -57,4 +57,27 @@ steps:
 
 - script: |
     echo "##[section]Gathering Results"
-    mkdir -p $(Build.Artifact
+    mkdir -p $(Build.ArtifactStagingDirectory)  # Ensure the directory exists
+    ls -l $(Build.ArtifactStagingDirectory)  # List the contents of the directory before copying
+  displayName: 'Gather Results'
+
+- script: |
+    echo "##[section]Listing contents before publishing"
+    ls -l $(Build.ArtifactStagingDirectory)
+  displayName: 'List contents before publishing'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/*.txt'
+    artifactName: 'output'
+    publishLocation: 'Container'
+
+- script: |
+    echo "##[section]Pushing Results to GitHub"
+    cd $(REPO_DIR)
+    git config --global user.name "Anish-blip"
+    git config --global user.email "your-email@example.com"
+    git add $(Build.ArtifactStagingDirectory)/output_*.txt
+    git commit -m "Add script outputs"
+    git push https://$(GITHUB_PAT)@github.com/Anish-blip/Hexagon-_Tasks.git
+  displayName: 'Push Results to GitHub'
