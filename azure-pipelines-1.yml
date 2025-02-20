@@ -26,7 +26,8 @@ steps:
 - script: |
     git config --global user.name 'Anish-blip'
     git config --global user.email 'anishanish24402@gmail.com'
+    git checkout main
     git add output.txt
     git commit -m "Add script output"
-    git push
+    git push origin main
   displayName: 'Push output to GitHub'
