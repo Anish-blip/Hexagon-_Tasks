@@ -29,4 +29,13 @@ steps:
     git config pull.rebase false  # Configure Git to use merge strategy
     git fetch origin python_task
     git checkout -b python_task origin/python_task  # Ensure branch exists locally
-    git stash  # Stash any uncomm
+    git stash  # Stash any uncommitted changes
+    git pull origin python_task  # Pull latest changes
+    git stash pop  # Reapply stashed changes
+    git add output.txt
+    git commit -m "Add script output"
+    git remote set-url origin https://$(System.AccessToken)@github.com/Anish-blip/Hexagon-_Tasks.git
+    GIT_ASKPASS=echo git push https://$(System.AccessToken)@github.com/Anish-blip/Hexagon-_Tasks.git HEAD:python_task
+  displayName: 'Push output to GitHub'
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
