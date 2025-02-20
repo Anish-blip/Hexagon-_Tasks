@@ -60,6 +60,11 @@ steps:
     ls -l $(Build.ArtifactStagingDirectory)  # List the contents of the directory before copying
   displayName: 'Gather Results'
 
+- script: |
+    echo "##[section]Listing contents before publishing"
+    ls -l $(Build.ArtifactStagingDirectory)
+  displayName: 'List contents before publishing'
+
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: '$(Build.ArtifactStagingDirectory)/*.txt'
