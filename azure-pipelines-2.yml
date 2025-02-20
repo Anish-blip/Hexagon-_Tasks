@@ -4,6 +4,9 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+- group: GitHubAuthentication  # Reference to your variable group containing GITHUB_TOKEN
+
 steps:
 - checkout: self
   displayName: 'Checkout GitHub Repository'
@@ -25,8 +28,9 @@ steps:
     script: |
       git config --global user.email "anishanish24402@gmail.com"
       git config --global user.name "Anish-blip"
-      git fetch origin
+      git remote set-url origin https://anishanish24402:$(GITHUB_TOKEN)@github.com/Anish-blip/Hexagon-_Tasks.git
       git checkout -b main origin/main
+      git pull origin main
       git add *_output.txt
       git commit -m "Add script outputs"
       git push origin main
