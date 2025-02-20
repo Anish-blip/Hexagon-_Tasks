@@ -29,7 +29,7 @@ steps:
     echo "##[section]Running Python Scripts"
     cd $(REPO_DIR)
     ls -l  # List the files in the repository for debugging
-    mkdir -p $(Build.ArtifactStagingDirectory)  # Ensure the directory exists
+    mkdir -p $(Build.ArtifactStagingDirectory)  # **Ensure the directory exists here**
     for file in *.py; do
       if [[ "$file" == "reverse_number.py" ]]; then
         echo "Running $file with argument 12345"
