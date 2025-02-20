@@ -1,0 +1,1 @@
+Usage: python sum.py <4-digit-number>
