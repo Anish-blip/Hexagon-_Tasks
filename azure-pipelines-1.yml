@@ -4,6 +4,9 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  GITHUB_PAT: $(GITHUB_PAT)
+
 steps:
 - task: UsePythonVersion@0
   inputs:
@@ -26,10 +29,14 @@ steps:
 - script: |
     git config --global user.name 'Anish-blip'
     git config --global user.email 'anishanish24402@gmail.com'
+    git config pull.rebase false  # Configure Git to use merge strategy
     git fetch origin python_task
-    git checkout python_task
-    git pull origin python_task
+    git checkout -b python_task origin/python_task  # Ensure branch exists locally
+    git stash  # Stash any uncommitted changes
+    git pull origin python_task  # Pull latest changes
+    git stash pop  # Reapply stashed changes
     git add output.txt
     git commit -m "Add script output"
+    git remote set-url origin https://$(GITHUB_PAT)@github.com/Anish-blip/Hexagon-_Tasks.git
     git push origin python_task
   displayName: 'Push output to GitHub'
