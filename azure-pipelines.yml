@@ -8,6 +8,7 @@ variables:
   - group: GITHUB_PAT  # Reference your variable group here
   - name: REPO_DIR
     value: $(Build.SourcesDirectory)/Hexagon-_Tasks
+
 steps:
 - task: UsePythonVersion@0
   inputs:
@@ -28,6 +29,7 @@ steps:
     echo "##[section]Running Python Scripts"
     cd Hexagon-_Tasks
     ls -l  # List the files in the repository for debugging
+    mkdir -p $(Build.ArtifactStagingDirectory)  # Ensure the directory exists
     for file in *.py; do
       if [[ "$file" == "reverse_number.py" ]]; then
         echo "Running $file with argument 12345"
@@ -53,7 +55,7 @@ steps:
 
 - script: |
     echo "##[section]Gathering Results"
-    mkdir -p $(Build.ArtifactStagingDirectory)  # Ensure the directory exists
+    ls -l  # List the contents of the directory before copying
     cp output_*.txt $(Build.ArtifactStagingDirectory)/
   displayName: 'Gather Results'
 
