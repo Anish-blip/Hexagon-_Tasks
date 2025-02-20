@@ -35,7 +35,7 @@ steps:
     git add output.txt
     git commit -m "Add script output"
     git remote set-url origin https://$(GITHUB_PAT)@github.com/Anish-blip/Hexagon-_Tasks.git
-    git push origin python_task
+    GITHUB_PAT=$(System.AccessToken) git push origin python_task
   displayName: 'Push output to GitHub'
   env:
     GITHUB_PAT: $(GITHUB_PAT)
