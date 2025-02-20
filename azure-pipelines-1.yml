@@ -1,5 +1,5 @@
 trigger:
-- main
+- python_task
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -26,10 +26,10 @@ steps:
 - script: |
     git config --global user.name 'Anish-blip'
     git config --global user.email 'anishanish24402@gmail.com'
-    git fetch origin main
-    git checkout main
-    git pull origin main
+    git fetch origin python_task
+    git checkout python_task
+    git pull origin python_task
     git add output.txt
     git commit -m "Add script output"
-    git push origin main
+    git push origin python_task
   displayName: 'Push output to GitHub'
