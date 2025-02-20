@@ -4,6 +4,9 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  AZURE_DEVOPS_PAT: $(AZURE_DEVOPS_PAT)
+
 steps:
 - task: UsePythonVersion@0
   inputs:
@@ -34,7 +37,5 @@ steps:
     git stash pop  # Reapply stashed changes
     git add output.txt
     git commit -m "Add script output"
-    git push https://$(System.AccessToken)@github.com/Anish-blip/Hexagon-_Tasks.git HEAD:python_task
+    git push https://$(AZURE_DEVOPS_PAT)@github.com/Anish-blip/Hexagon-_Tasks.git HEAD:python_task
   displayName: 'Push output to GitHub'
-  env:
-    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
