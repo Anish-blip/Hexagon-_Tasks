@@ -11,12 +11,7 @@ steps:
     addToPath: true
 
 - script: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-  displayName: 'Install dependencies'
-
-- script: |
-    python your_script.py > output.txt
+    python reverse_number.py > output.txt
   displayName: 'Run Python script'
 
 - task: PublishPipelineArtifact@1
