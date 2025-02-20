@@ -14,7 +14,7 @@ steps:
   displayName: 'Use Python 3.x'
 
 - script: |
-    python script.py > output.txt
+    python scripts/script.py > output.txt
   displayName: 'Run Python Script and Gather Output'
 
 - task: Bash@3
