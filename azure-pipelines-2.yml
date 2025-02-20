@@ -14,8 +14,10 @@ steps:
   displayName: 'Use Python 3.x'
 
 - script: |
-    python scripts/script.py > output.txt
-  displayName: 'Run Python Script and Gather Output'
+    for file in *.py; do
+        python "$file" > "${file%.py}_output.txt"
+    done
+  displayName: 'Run Python Scripts and Gather Outputs'
 
 - task: Bash@3
   inputs:
@@ -23,7 +25,7 @@ steps:
     script: |
       git config --global user.email "anishanish24402@gmail.com"
       git config --global user.name "Anish-blip"
-      git add output.txt
-      git commit -m "Add output file"
+      git add *_output.txt
+      git commit -m "Add script outputs"
       git push origin main
-  displayName: 'Push Output File to GitHub'
+  displayName: 'Push Output Files to GitHub'
