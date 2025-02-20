@@ -1,0 +1,34 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
+
+- script: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+  displayName: 'Install dependencies'
+
+- script: |
+    python your_script.py > output.txt
+  displayName: 'Run Python script'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: 'output.txt'
+    artifact: 'output'
+    publishLocation: 'pipeline'
+
+- script: |
+    git config --global user.name 'Anish-blip'
+    git config --global user.email 'anishanish24402@gmail.com'
+    git add output.txt
+    git commit -m "Add script output"
+    git push
+  displayName: 'Push output to GitHub'
