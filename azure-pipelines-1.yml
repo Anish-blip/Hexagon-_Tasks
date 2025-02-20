@@ -26,7 +26,9 @@ steps:
 - script: |
     git config --global user.name 'Anish-blip'
     git config --global user.email 'anishanish24402@gmail.com'
+    git fetch origin main
     git checkout main
+    git pull origin main
     git add output.txt
     git commit -m "Add script output"
     git push origin main
