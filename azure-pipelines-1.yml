@@ -34,8 +34,8 @@ steps:
     git stash pop  # Reapply stashed changes
     git add output.txt
     git commit -m "Add script output"
-    git remote set-url origin https://$(GITHUB_PAT)@github.com/Anish-blip/Hexagon-_Tasks.git
-    GITHUB_PAT=$(System.AccessToken) git push origin python_task
+    git remote set-url origin https://$(System.AccessToken)@github.com/Anish-blip/Hexagon-_Tasks.git
+    git push https://$(System.AccessToken)@github.com/Anish-blip/Hexagon-_Tasks.git python_task
   displayName: 'Push output to GitHub'
   env:
-    GITHUB_PAT: $(GITHUB_PAT)
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
