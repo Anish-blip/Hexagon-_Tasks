@@ -25,9 +25,9 @@ steps:
     script: |
       git config --global user.email "anishanish24402@gmail.com"
       git config --global user.name "Anish-blip"
-      git checkout $BUILD_SOURCEBRANCHNAME
-      git pull origin $BUILD_SOURCEBRANCHNAME
+      git fetch origin
+      git checkout -b main origin/main
       git add *_output.txt
       git commit -m "Add script outputs"
-      git push origin $BUILD_SOURCEBRANCHNAME
+      git push origin main
   displayName: 'Push Output Files to GitHub'
