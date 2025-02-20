@@ -4,9 +4,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  GITHUB_PAT: $(GITHUB_PAT)
-
 steps:
 - task: UsePythonVersion@0
   inputs:
@@ -40,3 +37,5 @@ steps:
     git remote set-url origin https://$(GITHUB_PAT)@github.com/Anish-blip/Hexagon-_Tasks.git
     git push origin python_task
   displayName: 'Push output to GitHub'
+  env:
+    GITHUB_PAT: $(GITHUB_PAT)
