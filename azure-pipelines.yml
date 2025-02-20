@@ -6,7 +6,8 @@ pool:
 
 variables:
   - group: GITHUB_PAT  # Reference your variable group here
-
+  - name: REPO_DIR
+    value: $(Build.SourcesDirectory)/Hexagon-_Tasks
 steps:
 - task: UsePythonVersion@0
   inputs:
