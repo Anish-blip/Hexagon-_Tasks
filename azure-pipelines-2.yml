@@ -1,0 +1,29 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+  displayName: 'Checkout GitHub Repository'
+
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+  displayName: 'Use Python 3.x'
+
+- script: |
+    python script.py > output.txt
+  displayName: 'Run Python Script and Gather Output'
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      git config --global user.email "anishanish24402@gmail.com"
+      git config --global user.name "Anish-blip"
+      git add output.txt
+      git commit -m "Add output file"
+      git push origin main
+  displayName: 'Push Output File to GitHub'
