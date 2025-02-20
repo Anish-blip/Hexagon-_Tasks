@@ -38,45 +38,4 @@ steps:
         python "$file" 1234 > "$(Build.ArtifactStagingDirectory)/output_${file%.py}.txt" 2>&1 || { echo "Failed to run $file"; cat "$(Build.ArtifactStagingDirectory)/output_${file%.py}.txt"; exit 1; }
       else
         echo "Running $file"
-        python "$file" > "$(Build.ArtifactStagingDirectory)/output_${file%.py}.txt" 2>&1 || { echo "Failed to run $file"; cat "$(Build.ArtifactStagingDirectory)/output_${file%.py}.txt"; exit 1; }
-      fi
-      # Check if the output file was created
-      if [ -f "$(Build.ArtifactStagingDirectory)/output_${file%.py}.txt" ]; then
-        echo "Output file for $file was created successfully."
-      else
-        echo "Output file for $file was not created."
-        echo "File listing after running $file:"
-        ls -l $(Build.ArtifactStagingDirectory)  # List files after running each script to check for output
-        exit 1
-      fi
-    done
-    echo "##[section]After running Python scripts"
-    ls -l $(Build.ArtifactStagingDirectory)  # List the files again to verify if the output files were created
-  displayName: 'Run Python Scripts'
-
-- script: |
-    echo "##[section]Gathering Results"
-    mkdir -p $(Build.ArtifactStagingDirectory)  # Ensure the directory exists
-    ls -l $(Build.ArtifactStagingDirectory)  # List the contents of the directory before copying
-  displayName: 'Gather Results'
-
-- script: |
-    echo "##[section]Listing contents before publishing"
-    ls -l $(Build.ArtifactStagingDirectory)
-  displayName: 'List contents before publishing'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)/*.txt'
-    artifactName: 'output'
-    publishLocation: 'Container'
-
-- script: |
-    echo "##[section]Pushing Results to GitHub"
-    cd $(REPO_DIR)
-    git config --global user.name "Anish-blip"
-    git config --global user.email "your-email@example.com"
-    git add $(Build.ArtifactStagingDirectory)/output_*.txt
-    git commit -m "Add script outputs"
-    git push https://$(GITHUB_PAT)@github.com/Anish-blip/Hexagon-_Tasks.git
-  displayName: 'Push Results to GitHub'
+        python "$file" > "$(Build.ArtifactStagingDirectory)/output_${file%.py}.txt
