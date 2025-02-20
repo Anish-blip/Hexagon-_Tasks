@@ -11,7 +11,10 @@ steps:
     addToPath: true
 
 - script: |
+    echo "Running Python script..."
     python reverse_number.py > output.txt
+    echo "Exit code: $?"
+    cat output.txt
   displayName: 'Run Python script'
 
 - task: PublishPipelineArtifact@1
