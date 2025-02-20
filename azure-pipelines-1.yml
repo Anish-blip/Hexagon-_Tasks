@@ -23,19 +23,16 @@ steps:
     artifact: 'output'
     publishLocation: 'pipeline'
 
-- script: |
-    git config --global user.name 'Anish-blip'
-    git config --global user.email 'anishanish24402@gmail.com'
-    git config pull.rebase false  # Configure Git to use merge strategy
-    git fetch origin python_task
-    git checkout -b python_task origin/python_task  # Ensure branch exists locally
-    git stash  # Stash any uncommitted changes
-    git pull origin python_task  # Pull latest changes
-    git stash pop  # Reapply stashed changes
-    git add output.txt
-    git commit -m "Add script output"
-    git remote set-url origin https://$(System.AccessToken)@github.com/Anish-blip/Hexagon-_Tasks.git
-    GIT_ASKPASS=echo git push https://$(System.AccessToken)@github.com/Anish-blip/Hexagon-_Tasks.git HEAD:python_task
+- checkout: self  # Ensure the pipeline has checked out the code from the correct repository
+
+- task: GitHubRelease@0
+  inputs:
+    connection: '<your-GitHub-service-connection>'
+    repositoryName: 'Anish-blip/Hexagon-_Tasks'
+    tagSource: 'auto'
+    target: 'python_task'
+    assets: 'output.txt'
+    releaseNotes: 'Automatically generated release for script output'
+    isDraft: false
+    addChangeLog: true
   displayName: 'Push output to GitHub'
-  env:
-    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
