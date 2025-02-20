@@ -46,6 +46,7 @@ steps:
         echo "Output file for $file was created successfully."
       else
         echo "Output file for $file was not created."
+        ls -l  # List files in the directory for debugging
         exit 1
       fi
     done
