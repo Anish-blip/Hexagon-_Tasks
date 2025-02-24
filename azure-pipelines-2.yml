@@ -6,7 +6,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-- group: GitHubAuthentication  # Reference to your variable group containing GITHUB_TOKEN
+- group: GitHubAuthentication  
 
 steps:
 - checkout: self
@@ -21,7 +21,7 @@ steps:
     for file in *.py; do
         python "$file" > "${file%.py}_output.txt"
     done
-    ls -la  # List files to verify output files are created
+    ls -la  
   displayName: 'Run Python Scripts and Gather Outputs'
 
 - task: Bash@3
